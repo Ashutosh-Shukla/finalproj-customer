@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/v1")
@@ -46,6 +46,20 @@ public class CustomerController {
                     "Please input correct email id");
         }
         return new ResponseEntity<>(entities, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/customer")
+    public ResponseEntity<Object> getCustomer(@RequestHeader String customer_id) {
+        log.info("Inside get /customer mapping");
+        registry.counter("custom.metrics.counter", "ApiCall", "GetCustomer").increment();
+
+        if (!customer_id.isEmpty()) {
+            Optional<CustomerEntity> cust = customerService.getCustomerById(customer_id);
+            if (cust.isPresent()) {
+                return new ResponseEntity<>(cust.get(), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Customer does not exist", HttpStatus.NOT_FOUND);
     }
 
     public Boolean validateEmail(String email) {
