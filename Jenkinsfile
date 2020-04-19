@@ -13,6 +13,7 @@ pipeline {
             image 'twalter/maven-docker'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             }
+      }
       steps {
           sh 'cd ${WORKSPACE}'
           sh 'mvn clean install'
