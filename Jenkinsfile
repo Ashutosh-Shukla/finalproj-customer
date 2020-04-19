@@ -36,8 +36,8 @@ pipeline {
           sh '''
           env && docker build -t ${BACKEND_IMAGE_NAME}:${GIT_COMMIT} .
           pwd
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push ${BACKEND_IMAGE_NAME}:${GIT_COMMIT}
+          sudo docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          sudo docker push ${BACKEND_IMAGE_NAME}:${GIT_COMMIT}
           '''
       }
     }
