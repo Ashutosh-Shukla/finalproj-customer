@@ -8,7 +8,11 @@ pipeline {
     }
     
     stage('Build package') {
-    agent { docker 'twalter/maven-docker' }
+     agent {
+            docker {
+            image 'twalter/maven-docker'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            }
       steps {
           sh 'cd ${WORKSPACE}'
           sh 'mvn clean install'
