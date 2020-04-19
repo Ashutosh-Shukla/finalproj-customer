@@ -32,6 +32,7 @@ pipeline {
       steps {
           sh '''
           env && docker build -t ${BACKEND_IMAGE_NAME}:${GIT_COMMIT} .
+          whoami
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
           docker push ${BACKEND_IMAGE_NAME}:${GIT_COMMIT}
           '''
