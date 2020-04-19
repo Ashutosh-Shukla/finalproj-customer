@@ -1,5 +1,8 @@
 pipeline {
   agent any
+    environment {
+        DOCKER_CONFIG = "${WORKSPACE}/docker.config"
+    }
   stages {
     stage('Git Clone') {
       steps {
