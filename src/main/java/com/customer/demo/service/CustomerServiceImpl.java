@@ -25,4 +25,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<CustomerEntity> getCustomerById(String customer_id) {
         return customerRepository.findById(customer_id);
     }
+
+    @Override
+    public Optional<CustomerEntity> getCustomerByEmail(String customer_email) {
+        return customerRepository.findByEmail(customer_email);
+    }
 }

@@ -16,8 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("*")
 @Controller
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v2")
 public class CustomerController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -55,6 +56,20 @@ public class CustomerController {
 
         if (!customer_id.isEmpty()) {
             Optional<CustomerEntity> cust = customerService.getCustomerById(customer_id);
+            if (cust.isPresent()) {
+                return new ResponseEntity<>(cust.get(), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Customer does not exist", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/customerid")
+    public ResponseEntity<Object> getCustomerID(@RequestHeader String customer_email) {
+        log.info("Inside get /customerID mapping");
+        registry.counter("custom.metrics.counter", "ApiCall", "GetCustomerID").increment();
+
+        if (!customer_email.isEmpty()) {
+            Optional<CustomerEntity> cust = customerService.getCustomerByEmail(customer_email);
             if (cust.isPresent()) {
                 return new ResponseEntity<>(cust.get(), HttpStatus.OK);
             }

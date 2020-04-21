@@ -8,4 +8,6 @@ public interface CustomerService {
     CustomerEntity createCustomer(CustomerEntity customerEntity);
 
     Optional<CustomerEntity> getCustomerById(String customer_id);
+
+    Optional<CustomerEntity> getCustomerByEmail(String customer_email);
 }
